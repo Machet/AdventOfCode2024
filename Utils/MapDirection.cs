@@ -11,4 +11,16 @@ public record class MapDirection(string Value)
 	public static readonly MapDirection NorthWest = new MapDirection("NW");
 
 	public static List<MapDirection> All => [North, East, South, West, NorthEast, SouthEast, SouthWest, NorthWest];
+
+	public MapDirection Turn90R()
+	{
+		return Value switch
+		{
+			"N" => new MapDirection("E"),
+			"E" => new MapDirection("S"),
+			"S" => new MapDirection("W"),
+			"W" => new MapDirection("N"),
+			_ => throw new Exception()
+		};
+	}
 }
