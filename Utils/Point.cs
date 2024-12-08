@@ -70,5 +70,11 @@ public record Point(int X, int Y)
 			_ when direction == MapDirection.NorthWest => GetNorthWestOf(),
 			_ => throw new NotImplementedException()
 		};
-		}
+	}
+
+	public static Vector operator +(Point a, Point b) => new Vector(a.X + b.X, a.Y + b.Y);
+	public static Vector operator -(Point a, Point b) => new Vector(a.X - b.X, a.Y - b.Y);
+	public static Point operator +(Point point, Vector vec) => new Point(point.X + vec.X, point.Y + vec.Y);
+	public static Point operator -(Point point, Vector vec) => new Point(point.X - vec.X, point.Y - vec.Y);
+
 }
