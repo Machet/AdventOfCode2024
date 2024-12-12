@@ -23,4 +23,16 @@ public record class MapDirection(string Value)
 			_ => throw new Exception()
 		};
 	}
+
+	public MapDirection Turn90L()
+	{
+		return Value switch
+		{
+			"N" => new MapDirection("W"),
+			"E" => new MapDirection("N"),
+			"S" => new MapDirection("E"),
+			"W" => new MapDirection("S"),
+			_ => throw new Exception()
+		};
+	}
 }
