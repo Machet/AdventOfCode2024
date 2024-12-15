@@ -35,4 +35,28 @@ public record class MapDirection(string Value)
 			_ => throw new Exception()
 		};
 	}
+
+	public MapDirection Reverse()
+	{
+		return Value switch
+		{
+			"N" => new MapDirection("S"),
+			"E" => new MapDirection("W"),
+			"S" => new MapDirection("N"),
+			"W" => new MapDirection("E"),
+			_ => throw new Exception()
+		};
+	}
+
+	public static MapDirection FromArrowSign(char move)
+	{
+		return move switch
+		{
+			'^' => North,
+			'>' => East,
+			'v' => South,
+			'<' => West,
+			_ => throw new Exception()
+		};
+	}
 }
