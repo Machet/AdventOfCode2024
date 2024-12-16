@@ -72,6 +72,11 @@ public record Point(int X, int Y)
 		};
 	}
 
+	public int ManhattanDistance(Point end)
+	{
+		return Math.Abs(X - end.X) + Math.Abs(Y - end.Y);
+	}
+
 	public static Vector operator +(Point a, Point b) => new Vector(a.X + b.X, a.Y + b.Y);
 	public static Vector operator -(Point a, Point b) => new Vector(a.X - b.X, a.Y - b.Y);
 	public static Point operator +(Point point, Vector vec) => new Point(point.X + vec.X, point.Y + vec.Y);
