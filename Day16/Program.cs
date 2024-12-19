@@ -8,14 +8,14 @@ var end = map.FindArrayItem('E').Single().Point;
 paths.Add(end);
 
 var initialState = new SearchState(new MapPosition(start, MapDirection.East), end, paths, 0, ImmutableHashSet<Point>.Empty);
-var shortestPaths = StateSearch.FindBestPath<SearchState, MapPosition>(initialState);
+var shortestPaths = StateSearch.FindBestPaths<SearchState, MapPosition>(initialState);
 
 Console.WriteLine("Result 1:" + shortestPaths.First().Score);
 Console.WriteLine("Result 2:" + shortestPaths.SelectMany(p => p.Visited).Distinct().Count() + 1);
 
 record MapPosition(Point Position, MapDirection Direction);
 
-record SearchState(MapPosition MapPosition, Point FinalPosition, HashSet<Point> AvailablePaths, int Score, ImmutableHashSet<Point> Visited)
+record SearchState(MapPosition MapPosition, Point FinalPosition, HashSet<Point> AvailablePaths, int Length, ImmutableHashSet<Point> Visited)
 	: StateSearch.SearchState<MapPosition>
 {
 	public MapPosition Key => MapPosition;
