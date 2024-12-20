@@ -8,11 +8,52 @@ var program = ReadProgram(lines[4]);
 var result1 = RunProgram(registerA, registerB, registerC, program);
 Console.WriteLine($"Result 1: " + string.Join(",", result1));
 
-List<long> RunProgram(long registerA, long registerB, long registerC, List<int> program)
+long regA = 0;
+var numberToSearch = 1;
+List<long> tempResult = new();
+var outputs = program.Reverse<long>().ToList();
+
+while (numberToSearch <= outputs.Count)
+{
+	tempResult = RunProgram(regA, registerB, registerC, program);
+	if (!CompareListEnds(program, tempResult.Skip(1).ToList()))
+	{
+		throw new Exception("Not the same");
+	}
+
+	if (tempResult[^numberToSearch] == outputs[numberToSearch - 1])
+	{
+		if (numberToSearch == outputs.Count)
+		{
+			break;
+		}
+
+		numberToSearch++;
+		regA *= 8;
+	}
+	else
+	{
+		regA++;
+	}
+}
+
+Console.WriteLine("Result 2: " + regA);
+
+
+static bool CompareListEnds(List<long> list1, List<long> list2)
+{
+	var length = Math.Min(list1.Count, list2.Count);
+	var first = list1.Skip(list1.Count - length).ToList();
+	var second = list2.Skip(list2.Count - length).ToList();
+	return first.SequenceEqual(second);
+}
+
+static List<long> RunProgram(long registerA, long registerB, long registerC, List<long> program)
 {
 	int instructionPointer = 0;
 	var output = new List<long>();
 
+	var tempA = registerA;
 	while (instructionPointer < program.Count - 1)
 	{
 		var instruction = program[instructionPointer];
@@ -38,7 +79,7 @@ List<long> RunProgram(long registerA, long registerB, long registerC, List<int> 
 
 		if (instruction == 3)
 		{
-			instructionPointer = registerA == 0 ? instructionPointer : literalOperand;
+			instructionPointer = registerA == 0 ? instructionPointer : (int)literalOperand;
 		}
 
 		if (instruction == 4)
@@ -68,7 +109,7 @@ List<long> RunProgram(long registerA, long registerB, long registerC, List<int> 
 	return output;
 }
 
-long GetComboOperand(int operand, long registerA, long registerB, long registerC)
+static long GetComboOperand(long operand, long registerA, long registerB, long registerC)
 {
 	return operand switch
 	{
@@ -83,13 +124,13 @@ long GetComboOperand(int operand, long registerA, long registerB, long registerC
 	};
 }
 
-int ReadRegister(string value)
+static int ReadRegister(string value)
 {
 	return int.Parse(value.Split(":")[1]);
 }
 
-List<int> ReadProgram(string value)
+static List<long> ReadProgram(string value)
 {
 	var program = value.Split(":")[1];
-	return program.Split(",").Select(int.Parse).ToList();
+	return program.Split(",").Select(long.Parse).ToList();
 }
