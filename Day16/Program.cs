@@ -10,7 +10,7 @@ paths.Add(end);
 var initialState = new SearchState(new MapPosition(start, MapDirection.East), end, paths, 0, ImmutableHashSet<Point>.Empty);
 var shortestPaths = StateSearch.FindBestPaths<SearchState, MapPosition>(initialState);
 
-Console.WriteLine("Result 1:" + shortestPaths.First().Score);
+Console.WriteLine("Result 1:" + shortestPaths.First().Length);
 Console.WriteLine("Result 2:" + shortestPaths.SelectMany(p => p.Visited).Distinct().Count() + 1);
 
 record MapPosition(Point Position, MapDirection Direction);
@@ -22,7 +22,7 @@ record SearchState(MapPosition MapPosition, Point FinalPosition, HashSet<Point> 
 
 	public bool IsFinal => MapPosition.Position == FinalPosition;
 
-	public int ScoreHeuristic => Score + MapPosition.Position.ManhattanDistance(FinalPosition);
+	public int ScoreHeuristic => Length + MapPosition.Position.ManhattanDistance(FinalPosition);
 
 	public IEnumerable<StateSearch.SearchState<MapPosition>> GetNextStates()
 	{
@@ -41,6 +41,6 @@ record SearchState(MapPosition MapPosition, Point FinalPosition, HashSet<Point> 
 	private SearchState NextInDirection(MapDirection dir, int moveScore)
 	{
 		var nextPos = MapPosition.Position.GetInDirection(dir);
-		return new SearchState(new MapPosition(nextPos, dir), FinalPosition, AvailablePaths, Score + moveScore, Visited.Add(nextPos));
+		return new SearchState(new MapPosition(nextPos, dir), FinalPosition, AvailablePaths, Length + moveScore, Visited.Add(nextPos));
 	}
 }

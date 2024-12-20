@@ -56,6 +56,20 @@ public record Point(int X, int Y)
 		yield return GetWestOf();
 	}
 
+	public HashSet<Point> GetArea(int reach)
+	{
+		var visited = new HashSet<Point>();
+		var toInspect = new HashSet<Point>() { this };
+
+		for (int i = 0; i < reach; i++)
+		{
+			toInspect = toInspect.SelectMany(p => p.GetNeighbours()).Where(n => !visited.Contains(n)).ToHashSet();
+			visited.AddRange(toInspect);
+		}
+
+		return visited;
+	}
+
 	public Point GetInDirection(MapDirection direction)
 	{
 		return direction switch
