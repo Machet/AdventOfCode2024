@@ -10,6 +10,7 @@ public record class MapDirection(string Value)
 	public static readonly MapDirection SouthWest = new MapDirection("SW");
 	public static readonly MapDirection NorthWest = new MapDirection("NW");
 
+	public static List<MapDirection> Main => [North, East, South, West];
 	public static List<MapDirection> All => [North, East, South, West, NorthEast, SouthEast, SouthWest, NorthWest];
 
 	public MapDirection Turn90R()
@@ -44,6 +45,18 @@ public record class MapDirection(string Value)
 			"E" => new MapDirection("W"),
 			"S" => new MapDirection("N"),
 			"W" => new MapDirection("E"),
+			_ => throw new Exception()
+		};
+	}
+
+	public char ToArrowSign()
+	{
+		return Value switch
+		{
+			"N" => '^',
+			"E" => '>',
+			"S" => 'v',
+			"W" => '<',
 			_ => throw new Exception()
 		};
 	}

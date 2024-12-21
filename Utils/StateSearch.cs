@@ -4,7 +4,7 @@ namespace Utils;
 
 public class StateSearch
 {
-	public interface SearchState<T> where T : class
+	public interface SearchState<T> 
 	{
 		T Key { get; }
 		int Length { get; }
@@ -14,7 +14,7 @@ public class StateSearch
 		IEnumerable<SearchState<T>> GetNextStates();
 	}
 
-	public static List<S> FindBestPaths<S, SK>(S initialState) where S : SearchState<SK> where SK : class
+	public static List<S> FindBestPaths<S, SK>(S initialState) where S : SearchState<SK>
 	{
 		var queue = new PriorityQueue<S, int>();
 		queue.Enqueue(initialState, 0);
