@@ -1,6 +1,6 @@
 ﻿using Utils;
 
-var map = File.ReadAllLines("inputt.txt").ToIntArray();
+var map = File.ReadAllLines("input.txt").ToIntArray();
 
 var distinctTrials = FindTrials(map, distinct: true);
 var allTrials = FindTrials(map, distinct: false);

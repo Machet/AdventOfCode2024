@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Text.RegularExpressions;
 
-var input = File.ReadAllText("inputt.txt");
+var input = File.ReadAllText("input.txt");
 
 var result1 = SumMuls(input);
 Console.WriteLine("Result 1: " + result1);
